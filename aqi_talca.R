@@ -85,12 +85,29 @@ df_new <- purrr::pmap_dfr(
 archivo <- "data/aqi_panel_log.csv"
 
 if (file.exists(archivo)) {
-  df_old <- read_csv(archivo, show_col_types = FALSE)
+  df_old <- read_csv(
+    archivo,
+    show_col_types = FALSE,
+    col_types = cols(
+      fecha = col_character(),
+      fecha_descarga = col_character()
+    )
+  )
+  
+  df_new <- df_new %>%
+    mutate(
+      fecha = as.character(fecha),
+      fecha_descarga = as.character(fecha_descarga)
+    )
   
   df_total <- bind_rows(df_old, df_new) %>%
     distinct(ciudad, estacion, fecha, .keep_all = TRUE)
 } else {
-  df_total <- df_new
+  df_total <- df_new %>%
+    mutate(
+      fecha = as.character(fecha),
+      fecha_descarga = as.character(fecha_descarga)
+    )
 }
 
 write_csv(df_total, archivo)
