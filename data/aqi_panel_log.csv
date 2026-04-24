@@ -1,0 +1,6 @@
+ciudad,estacion,ciudad_api,fecha,aqi,pm25,pm10,temp,viento,humedad,fecha_descarga
+Talca,La Florida 2,"La Florida 2, Chile",2026-04-24 09:00:00,93,93,52,7.2,2,97.3,2026-04-24 14:19:10.867712
+Talca,U.C. Maule,"U.C. Maule, Chile",2026-04-24 09:00:00,97,97,55,7.2,2,97.3,2026-04-24 14:19:11.016344
+Talca,Universidad de Talca,"Universidad de Talca, Chile",2026-04-24 09:00:00,114,114,113,7.2,2,97.3,2026-04-24 14:19:11.159606
+Los Angeles,Los Angeles Oriente,"Los Ángeles Oriente, Chile",2026-04-24 09:00:00,80,80,44,13.5,0.3,85.1,2026-04-24 14:19:11.302423
+Los Angeles,21 de Mayo 2,"21 de mayo 2, Chile",2026-04-24 09:00:00,107,107,50,13.1,0.3,86.5,2026-04-24 14:19:11.445364
