@@ -1,3 +1,13 @@
+packages <- c("httr", "jsonlite", "dplyr", "readr")
+
+installed <- rownames(installed.packages())
+
+for (p in packages) {
+  if (!(p %in% installed)) {
+    install.packages(p, repos = "https://cloud.r-project.org")
+  }
+}
+
 library(httr)
 library(jsonlite)
 library(dplyr)
