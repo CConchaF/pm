@@ -1,4 +1,4 @@
-packages <- c("httr", "jsonlite", "dplyr", "readr")
+packages <- c("httr", "jsonlite", "dplyr", "readr", "purrr")
 
 installed <- rownames(installed.packages())
 
@@ -12,12 +12,46 @@ library(httr)
 library(jsonlite)
 library(dplyr)
 library(readr)
+library(purrr)
 
 token <- Sys.getenv("AQICN_TOKEN")
 
-get_aqi_talca <- function(token) {
+estaciones <- data.frame(
+  ciudad = c(
+    "Talca", "Talca", "Talca",
+    "Los Angeles", "Los Angeles"
+  ),
+  estacion = c(
+    "La Florida 2",
+    "U.C. Maule",
+    "Universidad de Talca",
+    "Los Angeles Oriente",
+    "21 de Mayo 2"
+  ),
+  api_path = c(
+    "chile/la-florida-2",
+    "chile/u.c.-maule",
+    "chile/universidad-de-talca",
+    "chile/los-angeles-oriente",
+    "chile/21-de-mayo-2"
+  ),
+  stringsAsFactors = FALSE
+)
+
+extraer_valor <- function(x, var) {
+  if (!is.null(x$data$iaqi[[var]]$v)) {
+    return(x$data$iaqi[[var]]$v)
+  } else {
+    return(NA)
+  }
+}
+
+get_aqi <- function(ciudad, estacion, api_path, token) {
+  
   url <- paste0(
-    "https://api.waqi.info/feed/chile/universidad-de-talca/?token=",
+    "https://api.waqi.info/feed/",
+    api_path,
+    "/?token=",
     token
   )
   
@@ -26,28 +60,35 @@ get_aqi_talca <- function(token) {
   aqi_json <- fromJSON(txt)
   
   data.frame(
-    ciudad = aqi_json$data$city$name,
+    ciudad = ciudad,
+    estacion = estacion,
+    ciudad_api = aqi_json$data$city$name,
     fecha = aqi_json$data$time$s,
     aqi = aqi_json$data$aqi,
-    pm25 = aqi_json$data$iaqi$pm25$v,
-    pm10 = aqi_json$data$iaqi$pm10$v,
-    temp = aqi_json$data$iaqi$t$v,
-    viento = aqi_json$data$iaqi$w$v,
-    humedad = aqi_json$data$iaqi$h$v,
-    fecha_descarga = as.character(Sys.time())
+    pm25 = extraer_valor(aqi_json, "pm25"),
+    pm10 = extraer_valor(aqi_json, "pm10"),
+    temp = extraer_valor(aqi_json, "t"),
+    viento = extraer_valor(aqi_json, "w"),
+    humedad = extraer_valor(aqi_json, "h"),
+    fecha_descarga = as.character(Sys.time()),
+    stringsAsFactors = FALSE
   )
 }
 
 dir.create("data", showWarnings = FALSE)
 
-archivo <- "data/aqi_talca_log.csv"
+df_new <- purrr::pmap_dfr(
+  estaciones,
+  ~ get_aqi(..1, ..2, ..3, token)
+)
 
-df_new <- get_aqi_talca(token)
+archivo <- "data/aqi_panel_log.csv"
 
 if (file.exists(archivo)) {
   df_old <- read_csv(archivo, show_col_types = FALSE)
+  
   df_total <- bind_rows(df_old, df_new) %>%
-    distinct(ciudad, fecha, .keep_all = TRUE)
+    distinct(ciudad, estacion, fecha, .keep_all = TRUE)
 } else {
   df_total <- df_new
 }
