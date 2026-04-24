@@ -25,15 +25,15 @@ jobs:
 
       - name: Install packages
         run: |
-          Rscript -e "install.packages(c('httr','jsonlite','dplyr','readr'), repos='https://cloud.r-project.org')"
+          Rscript -e "install.packages(c('httr','jsonlite','dplyr','readr','purrr'), repos='https://cloud.r-project.org')"
 
       - name: Run AQI script
         env:
           AQICN_TOKEN: ${{ secrets.AQICN_TOKEN }}
         run: Rscript aqi_talca.R
-        
-       - name: Commit updated data
-          run: |
+
+      - name: Commit updated data
+        run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add data/*.csv
