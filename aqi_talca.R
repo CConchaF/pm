@@ -38,6 +38,8 @@ get_aqi_talca <- function(token) {
   )
 }
 
+dir.create("data", showWarnings = FALSE)
+
 archivo <- "data/aqi_talca_log.csv"
 
 df_new <- get_aqi_talca(token)
