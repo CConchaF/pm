@@ -18,23 +18,90 @@ token <- Sys.getenv("AQICN_TOKEN")
 
 estaciones <- data.frame(
   ciudad = c(
+    # Talca
     "Talca", "Talca", "Talca",
-    "Los Angeles", "Los Angeles"
+    
+    # Los Ángeles
+    "Los Angeles", "Los Angeles",
+    
+    # Chillán
+    "Chillan", "Chillan",
+    
+    # Rancagua
+    "Rancagua", "Rancagua",
+    
+    # Temuco
+    "Temuco", "Temuco", "Temuco",
+    
+    # Valdivia
+    "Valdivia", "Valdivia",
+    
+    # Osorno
+    "Osorno"
   ),
+  
   estacion = c(
+    # Talca
     "La Florida 2",
     "U.C. Maule",
     "Universidad de Talca",
+    
+    # Los Ángeles
     "Los Angeles Oriente",
-    "21 de Mayo 2"
+    "21 de Mayo 2",
+    
+    # Chillán
+    "INIA Chillan",
+    "Puren",
+    
+    # Rancagua
+    "Rancagua II",
+    "Rancagua I",
+    
+    # Temuco
+    "Nielol",
+    "Las Encinas",
+    "Padre Las Casas II",
+    
+    # Valdivia
+    "Valdivia 2",
+    "Valdivia",
+    
+    # Osorno
+    "Osorno"
   ),
+  
   api_path = c(
+    # Talca
     "chile/la-florida-2",
     "chile/u.c.-maule",
     "chile/universidad-de-talca",
+    
+    # Los Ángeles
     "chile/los-angeles-oriente",
-    "chile/21-de-mayo-2"
+    "chile/21-de-mayo-2",
+    
+    # Chillán
+    "chile/inia--chillan",
+    "chile/puren",
+    
+    # Rancagua
+    "chile/rancagua-ii",
+    "chile/rancagua-i",
+    
+    # Temuco
+    "chile/nielol",
+    "chile/las-encinas-temuco",
+    "chile/padre-las-casas-ii",
+    
+    # Valdivia
+    "chile/valdivia-2",
+    "chile/valdivia",
+    
+    # Osorno
+    "chile/osorno"
   ),
+  
   stringsAsFactors = FALSE
 )
 
